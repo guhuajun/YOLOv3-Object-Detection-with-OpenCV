@@ -1,6 +1,6 @@
 import numpy as np
 import argparse
-import cv2 as cv
+import cv2
 import subprocess
 import time
 import os
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 	colors = np.random.randint(0, 255, size=(len(labels), 3), dtype='uint8')
 
 	# Load the weights and configutation to form the pretrained YOLOv3 model
-	net = cv.dnn.readNetFromDarknet(FLAGS.config, FLAGS.weights)
+	net = cv2.dnn.readNetFromDarknet(FLAGS.config, FLAGS.weights)
 
 	# Get the output layer names of the model
 	layer_names = net.getLayerNames()
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 	if FLAGS.image_path:
 		# Read the image
 		try:
-			img = cv.imread(FLAGS.image_path)
+			img = cv2.imread(FLAGS.image_path)
 			height, width = img.shape[:2]
 		except:
 			raise 'Image cannot be loaded!\n\
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 	elif FLAGS.video_path:
 		# Read the video
 		try:
-			vid = cv.VideoCapture(FLAGS.video_path)
+			vid = cv2.VideoCapture(FLAGS.video_path)
 			height, width = None, None
 			writer = None
 		except:
@@ -135,10 +135,9 @@ if __name__ == '__main__':
 
 				if writer is None:
 					# Initialize the video writer
-					fourcc = cv.VideoWriter_fourcc(*"MJPG")
-					writer = cv.VideoWriter(FLAGS.video_output_path, fourcc, 30, 
+					fourcc = cv2.VideoWriter_fourcc(*"MJPG")
+					writer = cv2.VideoWriter(FLAGS.video_output_path, fourcc, 30, 
 						            (frame.shape[1], frame.shape[0]), True)
-
 
 				writer.write(frame)
 
@@ -151,7 +150,7 @@ if __name__ == '__main__':
 		# Infer real-time on webcam
 		count = 0
 
-		vid = cv.VideoCapture(0)
+		vid = cv2.VideoCapture(0)
 		while True:
 			_, frame = vid.read()
 			height, width = frame.shape[:2]
@@ -165,9 +164,10 @@ if __name__ == '__main__':
 		    						height, width, frame, colors, labels, FLAGS, boxes, confidences, classids, idxs, infer=False)
 				count = (count + 1) % 6
 
-			cv.imshow('webcam', frame)
+			cv2.imshow('webcam', frame)
 
-			if cv.waitKey(1) & 0xFF == ord('q'):
+			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
 		vid.release()
-		cv.destroyAllWindows()
+		cv2.destroyAllWindows()
+

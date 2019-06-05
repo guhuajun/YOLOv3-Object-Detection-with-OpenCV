@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "env/bin/python",
+    "python.linting.pylintPath": "pylint",
+    "python.formatting.autopep8Path": "autopep8"
+}
